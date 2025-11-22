@@ -149,6 +149,25 @@ export class Player extends Entity {
     }
 
     draw(renderer) {
+        // Draw Detection Range (Faint, dashed)
+        renderer.ctx.save();
+        renderer.ctx.beginPath();
+        renderer.ctx.setLineDash([5, 5]);
+        renderer.ctx.strokeStyle = 'rgba(52, 152, 219, 0.2)'; // Faint Blue
+        renderer.ctx.lineWidth = 1;
+        renderer.ctx.arc(this.x, this.y, this.pStats.detection, 0, Math.PI * 2);
+        renderer.ctx.stroke();
+        renderer.ctx.restore();
+
+        // Draw Attack Range (Faint, solid)
+        renderer.ctx.save();
+        renderer.ctx.beginPath();
+        renderer.ctx.strokeStyle = 'rgba(231, 76, 60, 0.2)'; // Faint Red
+        renderer.ctx.lineWidth = 1;
+        renderer.ctx.arc(this.x, this.y, this.pStats.range, 0, Math.PI * 2);
+        renderer.ctx.stroke();
+        renderer.ctx.restore();
+
         renderer.drawCircle(this.x, this.y, this.size, this.color);
         const hpPercent = Math.max(0, this.hp / this.maxHp);
         renderer.drawRect(this.x, this.y - 25, 40, 6, '#333');

@@ -156,7 +156,8 @@ export class Game {
                     if (enemy.hp <= 0) {
                         enemy.isDead = true;
                         this.score += 10;
-                        this.gems.push(new ExpGem(enemy.x, enemy.y, enemy.expValue));
+                        // Direct EXP gain
+                        this.player.gainExp(enemy.expValue, () => this.triggerLevelUp());
                     }
                     if (p.isDead) break;
                 }
@@ -178,19 +179,6 @@ export class Game {
                 }
             }
         }
-
-        // Collision: Player vs Gems
-        for (const gem of this.gems) {
-            const dx = this.player.x - gem.x;
-            const dy = this.player.y - gem.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < this.player.size + gem.size + this.player.magnet) {
-                gem.isDead = true;
-                this.player.gainExp(gem.value, () => this.triggerLevelUp());
-            }
-        }
-        this.gems = this.gems.filter(g => !g.isDead);
 
         // Cleanup far away enemies
         this.enemies = this.enemies.filter(e => {
@@ -289,18 +277,17 @@ export class Game {
 
     getAllUpgrades() {
         const upgrades = [
-            { type: 'size', name: '巨大弾', description: 'サイズ +50%', cost: 1, apply: (p) => p.pStats.size *= 1.5 },
-            { type: 'speed', name: '高速弾', description: '弾速 +20%', cost: 1, apply: (p) => p.pStats.speed *= 1.2 },
-            { type: 'damage', name: 'パワーアップ', description: 'ダメージ +5', cost: 1, apply: (p) => p.pStats.damage += 5 },
-            { type: 'count', name: 'マルチショット', description: '発射数 +1', cost: 3, apply: (p) => p.pStats.count += 1 },
-            { type: 'pierce', name: 'ドリル', description: '貫通数 +1', cost: 2, apply: (p) => p.pStats.pierce += 1 },
-            { type: 'cooldown', name: '連射', description: '連射速度 +15%', cost: 1, apply: (p) => p.pStats.cooldown *= 0.85 },
-            { type: 'magnet', name: 'マグネット', description: '取得範囲 +50', cost: 1, apply: (p) => p.magnet += 50 },
-            { type: 'range', name: 'スナイパー', description: '射程 +100', cost: 1, apply: (p) => p.pStats.range += 100 },
-            { type: 'detection', name: 'レーダー', description: '索敵範囲 +100', cost: 1, apply: (p) => p.pStats.detection += 100 },
-            { type: 'moveSpeed', name: '俊足', description: '移動速度 +20', cost: 1, apply: (p) => p.moveSpeed += 20 },
-            { type: 'spread_up', name: 'ワイド', description: '拡散 +10°', cost: 1, apply: (p) => p.pStats.spread += 0.17 },
-            { type: 'spread_down', name: 'フォーカス', description: '拡散 -10°', cost: 1, apply: (p) => p.pStats.spread = Math.max(0, p.pStats.spread - 0.17) },
+            { type: 'size', name: '巨大弾', description: '弾のサイズが50%大きくなります', cost: 1, apply: (p) => p.pStats.size *= 1.5 },
+            { type: 'speed', name: '高速弾', description: '弾の速度が20%速くなります', cost: 1, apply: (p) => p.pStats.speed *= 1.2 },
+            { type: 'damage', name: 'パワーアップ', description: 'ダメージが5増加します', cost: 1, apply: (p) => p.pStats.damage += 5 },
+            { type: 'count', name: 'マルチショット', description: '一度に発射する弾が1つ増えます', cost: 3, apply: (p) => p.pStats.count += 1 },
+            { type: 'pierce', name: 'ドリル', description: '弾が貫通する敵の数が1体増えます', cost: 2, apply: (p) => p.pStats.pierce += 1 },
+            { type: 'cooldown', name: '連射', description: '発射間隔が15%短くなります', cost: 1, apply: (p) => p.pStats.cooldown *= 0.85 },
+            { type: 'range', name: 'スナイパー', description: '弾の射程距離が100伸びます', cost: 1, apply: (p) => p.pStats.range += 100 },
+            { type: 'detection', name: 'レーダー', description: '敵を感知する範囲が100広がります', cost: 1, apply: (p) => p.pStats.detection += 100 },
+            { type: 'moveSpeed', name: '俊足', description: '移動速度が20速くなります', cost: 1, apply: (p) => p.moveSpeed += 20 },
+            { type: 'spread_up', name: 'ワイド', description: '弾の拡散角度が10度広がります', cost: 1, apply: (p) => p.pStats.spread += 0.17 },
+            { type: 'spread_down', name: 'フォーカス', description: '弾の拡散角度が10度狭まります', cost: 1, apply: (p) => p.pStats.spread = Math.max(0, p.pStats.spread - 0.17) },
         ];
 
         const enemyTypes = ['Tank', 'Rusher', 'Erratic', 'Drifter'];
