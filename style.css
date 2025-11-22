@@ -1,0 +1,222 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+}
+
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Let clicks pass through to canvas */
+}
+
+#hud {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#hp-bar-container {
+  width: 200px;
+  height: 20px;
+  background-color: #333;
+  border: 2px solid #555;
+}
+
+#hp-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #e74c3c;
+  transition: width 0.2s;
+}
+
+#score {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Modals */
+#game-over,
+#upgrade-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  /* Slightly darker for better visibility */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  /* Re-enable clicks */
+  z-index: 10;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Shop / Upgrade Modal Styles */
+#upgrade-modal h2 {
+  font-size: 2.5rem;
+  color: #f1c40f;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #f1c40f;
+}
+
+#upgrade-options {
+  display: flex;
+  flex-direction: row;
+  /* Side by side */
+  gap: 20px;
+  width: 95%;
+  height: 80vh;
+  justify-content: center;
+}
+
+.shop-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+.shop-section h3 {
+  text-align: center;
+  margin-top: 0;
+  color: #f1c40f;
+  border-bottom: 1px solid #555;
+  padding-bottom: 10px;
+}
+
+.upgrade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.upgrade-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #777;
+  padding: 10px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 8px;
+}
+
+.upgrade-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+}
+
+.upgrade-card.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.upgrade-card h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #f1c40f;
+  text-align: center;
+}
+
+.upgrade-card p {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #ddd;
+  margin: 5px 0;
+  line-height: 1.2;
+}
+
+.cost {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #2ecc71;
+}
+
+.skip-btn {
+  position: absolute;
+  bottom: 20px;
+  padding: 10px 30px;
+  font-size: 1rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.skip-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Game Over Styles */
+#game-over h1 {
+  font-size: 4rem;
+  color: #e74c3c;
+  text-shadow: 0 0 20px #c0392b;
+}
+
+#restart-btn {
+  padding: 15px 40px;
+  font-size: 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#restart-btn:hover {
+  background-color: #2980b9;
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roguelite Game</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div id="app">
+    <canvas id="gameCanvas"></canvas>
+    <div id="ui-layer">
+      <div id="hud">
+        <div id="hp-bar-container">
+          <div id="hp-bar"></div>
+        </div>
+        <div id="score">スコア: 0</div>
+      </div>
+      <div id="upgrade-modal" class="hidden">
+        <h2>ショップ</h2>
+        <div id="upgrade-options">
+          <!-- Options injected by JS -->
+        </div>
+      </div>
+      <div id="game-over" class="hidden">
+        <h1>ゲームオーバー</h1>
+        <button id="restart-btn">リスタート</button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
